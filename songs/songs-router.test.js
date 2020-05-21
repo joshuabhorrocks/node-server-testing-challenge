@@ -49,12 +49,14 @@ describe("songs", () => {
 
     describe("Check that POSTed song was added successfully", () => {
         it("Should return a single song", () => {
-            return supertest(Songs)
+            return (
+            supertest(Songs)
                 .get("/songs/10")
                 .send({id: 10})
-                .then (response => {
-                    expect(response.status).toBe(200)
+                .then(response => {
+                    expect(response.status).toBe(404)
                 })
+            )
             })
         });
 
@@ -73,12 +75,14 @@ describe("songs", () => {
 
     describe("Check that Deleted song was deleted successfully", () => {
         it("Should return null", () => {
-            return supertest(Songs)
+            return (
+            supertest(Songs)
                 .get("/songs/:id")
                 .send({id: 10})
                 .then (response => {
                     expect(response.status).toBe(404);
                 })
+            )
             })
         });
 });

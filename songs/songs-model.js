@@ -12,7 +12,11 @@ function getAll() {
 }
 
 function findById(id) {
-    return db("songs").where("id", id);
+    if (db("songs").where("id", id) === []) {
+      return err;
+    } else {
+      return db("songs").where("id", id).first();
+    }
 }
 
 async function insert(song) {

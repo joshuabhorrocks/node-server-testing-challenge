@@ -21,7 +21,7 @@ router.get('/:id', (req, res) => {
     Songs.findById(id)
     .then(songs => {
       console.log(songs)
-      if (songs !== [{}]) {
+      if (songs) {
         res.json(songs);
       } else {
         res.status(404).json({message: "Invalid Id"});
