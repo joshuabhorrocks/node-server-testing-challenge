@@ -34,19 +34,51 @@ describe("songs", () => {
         });
     });
 
-    describe("POST / songs", () => {
+    describe("POST / new song", () => {
         it("Should return http status code 201 OK", () => {
-            let songData = {
-                name: "Mississippi Queen",
-                artist: "Mountain"
-            }
             return (
-            supertest(Songs, songData)
+            supertest(Songs)
                 .post("/songs")
+                .send({id: 10, name: "Mississippi Queen", artist: "Mountain"})
                 .then(response => {
                 expect(response.status).toBe(201);
                 })
             );
         });
     });
+
+    describe("Check that POSTed song was added successfully", () => {
+        it("Should return a single song", () => {
+            return supertest(Songs)
+                .get("/songs/10")
+                .send({id: 10})
+                .then (response => {
+                    expect(response.status).toBe(200)
+                })
+            })
+        });
+
+    describe("Delete / song", () => {
+        it("Should return http status code 204 OK", () => {
+            return (
+            supertest(Songs)
+                .delete("/songs/:id")
+                .send({id: 10})
+                .then(response => {
+                expect(response.status).toBe(204);
+                })
+            );
+        });
+    });
+
+    describe("Check that Deleted song was deleted successfully", () => {
+        it("Should return null", () => {
+            return supertest(Songs)
+                .get("/songs/:id")
+                .send({id: 10})
+                .then (response => {
+                    expect(response.status).toBe(404);
+                })
+            })
+        });
 });

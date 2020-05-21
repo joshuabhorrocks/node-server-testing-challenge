@@ -15,6 +15,24 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/:id', (req, res) => {
+  const {id} = req.params;
+
+    Songs.findById(id)
+    .then(songs => {
+      console.log(songs)
+      if (songs !== [{}]) {
+        res.json(songs);
+      } else {
+        res.status(404).json({message: "Invalid Id"});
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: 'Failed to get songs' });
+    });
+});
+
 router.post('/', (req, res) => {
     const songData = req.body;
 
@@ -33,7 +51,7 @@ router.delete('/:id', (req, res) => {
 
     Songs.remove(id)
     .then(song => {
-        res.json(song);
+        res.status(204).json(song);
     })
     .catch(err => {
       console.log(err)
